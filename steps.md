@@ -26,9 +26,10 @@ Add Personal access token to Jenkins configuration -> GitHub -> GitHub server ->
 Check github repo: weebhooks
 install Pipeline: AWS Steps 1.41 plugin on Jenkins (interaction between Jenkins and S3 bucket)
 Add AWS Credential: AWScredentials
-Delete S3 bucket using provided AWS credential:
+Delete old S3 bucket content and upload latest code using provided AWS credential:
 withAWS(region:'eu-west-2', credentials: "AWScredentials") {
-  s3Delete(bucket:"bucket_name",path:"path_to_files")
+  s3Delete(bucket:"testing-bucket-liangchen323",path:"/*")
+  s3Upload(bucket:"testing-bucket-liangchen323",file:"DiceGame")
 }
 ```
 

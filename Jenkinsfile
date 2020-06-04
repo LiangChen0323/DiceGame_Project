@@ -8,12 +8,23 @@ pipeline{
               // sh "git clone --single-branch --branch S3 https://github.com/LiangChen0323/DiceGame_Project.git s3/"
           }
         }
-        stage("Create S3 bucket and Cloudfront"){
-          when {
-            branch "S3"
-          }
+        stage("Terraform Init - Create S3 bucket and Cloudfront"){
+          // when {
+          //   branch "S3"
+          // }
             steps{
-                echo "========Creating S3 and Cloudfront========"
+                sh "terraform init -input=false"
+            }
+        }
+        stage("Terraform Plan"){
+            steps{
+                sh "terraform plan -out=tfplan -input=false -var-file='dev.tfvars'"
+            }
+        }
+        stage("Terraform Apply"){
+            steps{
+                input "Apply Plan"
+                sh "terraform apply --input=false tfplan"
             }
         }
         stage("Deploy Dicegame source code to S3 bucket"){
