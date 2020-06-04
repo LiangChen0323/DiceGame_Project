@@ -1,5 +1,5 @@
 There are two options available for deploying static website.
-1. Build a full CICD pipeline using Ansible, Terraform and Jenkins to AWS S3 bucket + Cloudfront (edge location for global users)
+1. Build a full CICD pipeline using Terraform and Jenkins deploy game source code to AWS S3 bucket + Cloudfront (edge location for global users)
 2. Build a full CICD pipeline using Ansible, Terraform and Jenkins deploy game source code to AWS EC2 instances
 
 1. Setup Jenkins
