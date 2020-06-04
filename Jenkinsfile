@@ -13,18 +13,18 @@ pipeline{
           //   branch "S3"
           // }
             steps{
-                sh "terraform init"
+                sh "/bin/terraform/terraform init"
             }
         }
         stage("Terraform Plan"){
             steps{
-                sh "terraform plan"
+                sh "/bin/terraform/terraform plan"
             }
         }
         stage("Terraform Apply"){
             steps{
                 input "Apply Apply"
-                sh "terraform apply -auto-approve"
+                sh "/bin/terraform/terraform apply -auto-approve"
             }
         }
         stage("Deploy Dicegame source code to S3 bucket"){
