@@ -24,6 +24,8 @@ Repository URL: https://github.com/LiangChen0323/DiceGame_Project
 Create a Personal access token on Github for webhook use
 Add Personal access token to Jenkins configuration -> GitHub -> GitHub server -> Add (secret text)-> tick Manage hooks
 Check github repo: weebhooks
+install Pipeline: AWS Steps 1.41 plugin on Jenkins (interaction between Jenkins and S3 bucket)
+Add AWS Credential: AWScredentials
 ```
 
 ### Terraform
