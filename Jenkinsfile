@@ -1,6 +1,12 @@
 pipeline{
     agent any
     stages{
+        stage("Build") {
+          steps {
+              echo "========Runing building automation========"
+              archiveArtifacts artifacts: 'dist/dicegame.zip'
+          }
+        }
         stage("Create S3 bucket and Cloudfront"){
           when {
             branch "S3"
@@ -26,6 +32,7 @@ pipeline{
                 echo "====++++Deploying Dicegame to S3++++===="
                 withAWS(region:'eu-west-2', credentials: "AWScredentials") {
                   s3Delete(bucket:"testing-bucket-liangchen323",path:"LiangChen_CV.pdf")
+                  s3Update(bucket:"testing-bucket-liangchen323",file:"dicegame.zip", path:"dist/dicegame.zip")
                 }
             }
             post{
