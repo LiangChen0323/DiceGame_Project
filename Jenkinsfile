@@ -4,8 +4,7 @@ pipeline{
         stage("Build") {
           steps {
               echo "========Runing building automation========"
-              sh "git clone https://github.com/LiangChen0323/DiceGame_Project.git dist/DiceGame_Project.git"
-              archiveArtifacts artifacts: 'dist/DiceGame_Project.git'
+              sh "git clone https://github.com/LiangChen0323/DiceGame_Project.git dist/"
           }
         }
         stage("Create S3 bucket and Cloudfront"){
