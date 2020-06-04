@@ -4,8 +4,8 @@ pipeline{
         stage("Build") {
           steps {
               echo "========Downloading latest Dicegame source code========"
-              sh "rm -rf s3"
-              sh "git clone --single-branch --branch S3 https://github.com/LiangChen0323/DiceGame_Project.git s3/"
+              // sh "rm -rf s3"
+              // sh "git clone --single-branch --branch S3 https://github.com/LiangChen0323/DiceGame_Project.git s3/"
           }
         }
         stage("Create S3 bucket and Cloudfront"){
@@ -14,18 +14,6 @@ pipeline{
           }
             steps{
                 echo "========Creating S3 and Cloudfront========"
-
-            }
-            post{
-                always{
-                    echo "========always========"
-                }
-                success{
-                    echo "========A executed successfully========"
-                }
-                failure{
-                    echo "========A execution failed========"
-                }
             }
         }
         stage("Deploy Dicegame source code to S3 bucket"){
@@ -35,18 +23,6 @@ pipeline{
                   s3Delete(bucket:"testing-bucket-liangchen323",path:"/*")
                   s3Upload(bucket:"testing-bucket-liangchen323",file:"DiceGame")
                 }
-            }
-            post{
-                always{
-                    echo "====++++always++++===="
-                }
-                success{
-                    echo "====++++A executed successfully++++===="
-                }
-                failure{
-                    echo "====++++A execution failed++++===="
-                }
-        
             }
         }
     }
