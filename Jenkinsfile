@@ -4,8 +4,8 @@ pipeline{
         stage("Build") {
           steps {
               echo "========Downloading latest Dicegame source code========"
-              sh "rm -rf dist"
-              sh "git clone https://github.com/LiangChen0323/DiceGame_Project.git s3/"
+              sh "rm -rf s3"
+              sh "git clone -single-branch --branch S3 https://github.com/LiangChen0323/DiceGame_Project.git s3/"
           }
         }
         stage("Create S3 bucket and Cloudfront"){
