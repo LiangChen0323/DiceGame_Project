@@ -4,7 +4,8 @@ pipeline{
         stage("Build") {
           steps {
               echo "========Downloading latest Dicegame source code========"
-              sh "git clone https://github.com/LiangChen0323/DiceGame_Project.git dist/tmp/"
+              sh "rm -rf dist"
+              sh "git clone https://github.com/LiangChen0323/DiceGame_Project.git dist/"
           }
         }
         stage("Create S3 bucket and Cloudfront"){
@@ -32,7 +33,7 @@ pipeline{
                 echo "====++++Deploying Dicegame to S3++++===="
                 withAWS(region:'eu-west-2', credentials: "AWScredentials") {
                   s3Delete(bucket:"testing-bucket-liangchen323",path:"LiangChen_CV.pdf")
-                  s3Upload(bucket:"testing-bucket-liangchen323",path:"dist/tmp/",includePathPattern:'**/*')
+                  s3Upload(bucket:"testing-bucket-liangchen323",path:"dist/",includePathPattern:'**/*')
                 }
             }
             post{
