@@ -1,8 +1,10 @@
 There are two options available for deploying static website.
 1. Build a full CICD pipeline using Terraform and Jenkins deploy game source code to AWS S3 bucket + Cloudfront (edge location for global users)
+
+
 2. Build a full CICD pipeline using Ansible, Terraform and Jenkins deploy game source code to AWS EC2 instances
 
-1. Setup Jenkins
+### Jenkins
 ```
 find /usr/lib/jvm/java-1.8* | head -n 3
 vim ~/.bash_profile -> add java path
@@ -21,13 +23,13 @@ Source Code Management: Git
 Repository URL: https://github.com/LiangChen0323/DiceGame_Project
 Create a Personal access token on Github for webhook use
 Add Personal access token to Jenkins configuration -> GitHub -> GitHub server -> Add (secret text)-> tick Manage hooks
-Check github repo: weekhook
+Check github repo: weebhooks
 ```
 
-2. Terraform
+### Terraform
 ```
 ```
 
-3. Ansible
+### Ansible
 ```
 ```
