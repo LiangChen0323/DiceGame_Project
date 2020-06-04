@@ -24,8 +24,8 @@ pipeline{
         stage("Deploy Dicegame source code to S3 bucket"){
             steps{
                 echo "====++++Deploying Dicegame to S3++++===="
-                withAWS(region:'eu-west-2', credentials: "AWScredentials"){
-                  s3Delete(bucket:"testing-bucket-liangchen323", path:"**/*")
+                withAWS(region:'eu-west-2', credentials: "AWScredentials") {
+                  s3Delete(bucket:"testing-bucket-liangchen323")
                 }
             }
             post{
