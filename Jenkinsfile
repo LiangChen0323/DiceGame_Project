@@ -13,18 +13,18 @@ pipeline{
           //   branch "S3"
           // }
             steps{
-                sh "terraform init -input=false"
+                sh "${env.TERRAFORM_HOME}/terraform init -input=false"
             }
         }
         stage("Terraform Plan"){
             steps{
-                sh "terraform plan -out=tfplan -input=false -var-file='dev.tfvars'"
+                sh "${env.TERRAFORM_HOME}/terraform plan -out=tfplan -input=false -var-file='dev.tfvars'"
             }
         }
         stage("Terraform Apply"){
             steps{
                 input "Apply Plan"
-                sh "terraform apply --input=false tfplan"
+                sh "${env.TERRAFORM_HOME}/terraform apply --input=false tfplan"
             }
         }
         stage("Deploy Dicegame source code to S3 bucket"){
