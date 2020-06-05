@@ -9,12 +9,24 @@ provider "aws" {
 resource "aws_s3_bucket" "tf_code" {
   bucket        = var.bucket_name
   acl           = "private"
+  policy        = data.aws_iam_policy_document.s3_policy.json
   force_destroy = true
   tags = {
     Name = "tf_bucket"
   }
 }
 
+data "aws_iam_policy_document" "s3_policy" {
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["arn:aws:s3:::${var.bucket_name}/*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.origin_access_identity.iam_arn]
+    }
+  }
+}
 locals {
     s3_origin_id = "S3-${var.bucket_name}"
 }
