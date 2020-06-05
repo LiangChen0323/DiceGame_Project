@@ -4,3 +4,6 @@ variable my-secret-key {}
 variable "bucket_name" {}
 
 variable "domain_name" {}
+
+variable "zone_id" {}
+
