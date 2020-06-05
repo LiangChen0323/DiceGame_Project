@@ -139,9 +139,14 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 }
 
+data "aws_route53_zone" "route53_zone" {
+  name = var.domain_name
+  private_zone = false
+}
+
 resource "aws_route53_record" "www" {
   zone_id = var.zone_id
-  name    = "www.${data.aws_route53_zone.route53_zone.name}"
+  name    = "www.${var.domain_name}"
   type    = "A"
 
   alias {
