@@ -1,6 +1,6 @@
 aws_region  = "eu-west-2"
-my-access-key = "AKIASFCO6OUGLKTJWIX4"
-my-secret-key = "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"
+my-access-key = "AKIASFCO6OUGBSKWWR6P"
+my-secret-key = "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"
 bucket_name = "testing-bucket-liangchen323-123"
 domain_name = "liangchen323.net"
 zone_id = "Z0016315HM5HFEENTSBN"
