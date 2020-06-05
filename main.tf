@@ -145,13 +145,13 @@ data "aws_route53_zone" "route53_zone" {
 }
 
 resource "aws_route53_record" "www" {
-  zone_id = data.aws_route53_zone.route53_zone.zone_id
-  name    = "$www.{var.domain_name}"
-  type    = "A"
+  zone_id = data.aws_route53_zone.route53_zone.zone_id,
+  name    = "$www.{var.domain_name}",
+  type    = "A",
 
   alias {
-    name    = aws_cloudfront_distribution.s3_distribution.domain_name
-    zone_id = aws_cloudfront_distribution.s3_distribution.hostsed_zone_id
+    name    = aws_cloudfront_distribution.s3_distribution.domain_name,
+    zone_id = aws_cloudfront_distribution.s3_distribution.hostsed_zone_id,
     evaluate_target_health = false
   }
 }
