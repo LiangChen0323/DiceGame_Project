@@ -1,11 +1,10 @@
-// TODO: change how AWS Crendentials are stored use valut
-// TODO: ADD A record to AWS Route 53
 provider "aws" {
   region     = var.aws_region
   access_key = var.my-access-key
   secret_key = var.my-secret-key
 }
 
+// S3 Bucket
 resource "aws_s3_bucket" "tf_code" {
   bucket        = var.bucket_name
   acl           = "private"
@@ -16,6 +15,7 @@ resource "aws_s3_bucket" "tf_code" {
   }
 }
 
+// S3 Bucket policy
 data "aws_iam_policy_document" "s3_policy" {
   statement {
     actions   = ["s3:GetObject"]
@@ -27,15 +27,13 @@ data "aws_iam_policy_document" "s3_policy" {
     }
   }
 }
-locals {
-    s3_origin_id = "S3-${var.bucket_name}"
-}
 
-
+// S3 OAI for Cloudfront 
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
   comment = "origin-access-identity/${var.bucket_name}"
 }
 
+// Cloudfront
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
     domain_name = aws_s3_bucket.tf_code.bucket_regional_domain_name
@@ -139,6 +137,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 }
 
+// Route53 record using an exsiting domain
 resource "aws_route53_record" "www" {
   zone_id = var.zone_id
   name    = "www."
