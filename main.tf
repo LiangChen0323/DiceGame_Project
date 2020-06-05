@@ -82,3 +82,19 @@ resource "aws_subnet" "DiceGame_private2_subnet" {
     Name = "DiceGame_private2"
   }
 }
+
+// Subnet Asscociations
+resource "aws_route_table_association" "DiceGame_public_assoc" {
+  subnet_id      = aws_subnet.DiceGame_public1_subnet.id
+  route_table_id = aws_route_table.DiceGame_public_rt.id
+}
+
+resource "aws_route_table_association" "DiceGame_private1_assoc" {
+  subnet_id      = aws_subnet.DiceGame_private1_subnet.id
+  route_table_id = aws_default_route_table.DiceGame_private_rt.id
+}
+
+resource "aws_route_table_association" "DiceGame_private2_assoc" {
+  subnet_id      = aws_subnet.DiceGame_private2_subnet.id
+  route_table_id = aws_default_route_table.DiceGame_private_rt.id
+}
