@@ -141,7 +141,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
 resource "aws_route53_record" "www" {
   zone_id = var.zone_id
-  name    = "www.${var.domain_name}"
+  name    = "www."
   type    = "A"
 
   alias {
