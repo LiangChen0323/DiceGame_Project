@@ -54,10 +54,8 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   logging_config {
     include_cookies = false
     bucket          = "${var.bucket_name}.s3.amazonaws.com"
-    prefix          = "myprefix"
+    prefix          = "S3-logs-"
   }
-
-  # aliases = ["mysite.example.com", "yoursite.example.com"]
 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
@@ -138,5 +136,22 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   viewer_certificate {
     cloudfront_default_certificate = true
+  }
+}
+
+data "aws_route53_zone" "route53_zone" {
+  name = var.domain_name,
+  private_zone = false
+}
+
+resource "aws_route53_record" "www" {
+  zone_id = data.aws_route53_zone.route53_zone.zone_id
+  name    = "$www.{var.domain_name}"
+  type    = "A"
+
+  alias {
+    name    = aws_cloudfront_distribution.s3_distribution.domain_name
+    zone_id = aws_cloudfront_distribution.s3_distribution.hostsed_zone_id
+    evaluate_target_health = false
   }
 }
