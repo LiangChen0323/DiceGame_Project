@@ -181,7 +181,6 @@ resource "aws_launch_configuration" "DiceGame_lc" {
   image_id             = var.ami_id
   instance_type        = var.lc_instance_type
   security_groups      = [aws_security_group.DiceGame_private_sg.id]
-  iam_instance_profile = aws_iam_instance_profile.s3_access_profile.id
   key_name             = aws_key_pair.DiceGame_auth.id
   user_data            = file("userdata")
   lifecycle {
