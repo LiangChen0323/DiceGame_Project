@@ -226,7 +226,7 @@ resource "aws_instance" "DiceGame_dev" {
     command = "echo ${aws_instance.DiceGame_dev.public_ip} >> aws_hosts"
   }
   provisioner "local-exec" {
-    command = "aws ec2 wait instance-status-ok --instance-ids ${aws_instance.DiceGame_dev.id} --profile liangchen && ansible-playbook -i aws_hosts EC2.yaml"
+    command = "aws ec2 wait instance-status-ok --instance-ids ${aws_instance.DiceGame_dev.id} --profile liangchen && ansible-playbook -i aws_hosts dev EC2.yaml"
   }
 }
 
