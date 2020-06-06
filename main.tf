@@ -143,7 +143,7 @@ resource "aws_security_group" "DiceGame_private_sg" {
 }
 
 # Load balancer 
-resource "aws_elb" "wp_elb" {
+resource "aws_elb" "DiceGame_elb" {
   name = "${var.domain_name}-elb"
 
   subnets = [aws_subnet.DiceGame_public1_subnet.id]
@@ -172,5 +172,39 @@ resource "aws_elb" "wp_elb" {
 
   tags = {
     Name = "DiceGame_${var.domain_name}-elb"
+  }
+}
+
+# Launch configuration 
+resource "aws_launch_configuration" "DiceGame_lc" {
+  name_prefix          = "DiceGame_lc-"
+  image_id             = var.ami_id
+  instance_type        = var.lc_instance_type
+  security_groups      = [aws_security_group.DiceGame_private_sg.id]
+  iam_instance_profile = aws_iam_instance_profile.s3_access_profile.id
+  key_name             = aws_key_pair.DiceGame_auth.id
+  user_data            = file("userdata")
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+# ASG
+resource "aws_autoscaling_group" "DiceGame_asg" {
+  name                      = "asg-${aws_launch_configuration.DiceGame_lc.id}"
+  max_size                  = var.asg_max
+  min_size                  = var.asg_min
+  health_check_grace_period = var.asg_grace
+  health_check_type         = var.asg_hct
+  desired_capacity          = var.asg_cap
+  force_delete              = true
+  load_balancers            = [aws_elb.DiceGame_elb.id]
+
+  vpc_zone_identifier = [aws_subnet.DiceGame_private1_subnet.id, aws_subnet.DiceGame_private2_subnet.id]
+
+  launch_configuration = aws_launch_configuration.DiceGame_lc.name
+  
+  lifecycle {
+    create_before_destroy = true
   }
 }

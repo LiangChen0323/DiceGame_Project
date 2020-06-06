@@ -24,3 +24,6 @@ variable "asg_min" {}
 variable "asg_grace" {}
 variable "asg_hct" {}
 variable "asg_cap" {}
+
+#AMI
+variable "ami_id" {}
