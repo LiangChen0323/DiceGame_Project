@@ -175,6 +175,11 @@ resource "aws_elb" "DiceGame_elb" {
   }
 }
 
+resource "aws_key_pair" "DiceGame_auth" {
+  key_name   = var.key_name
+  public_key = file(var.public_key_path)
+}
+
 # Launch configuration 
 resource "aws_launch_configuration" "DiceGame_lc" {
   name_prefix          = "DiceGame_lc-"

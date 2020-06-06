@@ -26,7 +26,8 @@ asg_cap          = "2"
 
 #AMI
 #Premade image contains apache
-ami_id = "ami-045fbdb7b9d437752"
+#Use row image
+ami_id = "ami-032598fcc7e9d1c7a"
 
 #Keys
 public_key_path   = "/root/.ssh/id_rsa.pub"
