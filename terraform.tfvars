@@ -7,3 +7,19 @@ cidrs = {
   private1 = "10.0.2.0/24"
   private2 = "10.0.3.0/24"
 }
+
+domain_name = "liangchen0323"
+
+#ELB
+elb_healthy_threshold   = "2"
+elb_unhealthy_threshold = "2"
+elb_timeout             = "3"
+elb_interval            = "30"
+
+#ASG
+lc_instance_type = "t2.micro"
+asg_max          = "2"
+asg_min          = "1"
+asg_grace        = "300"
+asg_hct          = "EC2"
+asg_cap          = "2"

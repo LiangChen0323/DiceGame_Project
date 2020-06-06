@@ -1,0 +1,5 @@
+#!/bin/bash
+git clone https://github.com/LiangChen0323/DiceGame_Project.git
+cp DiceGame_Project/DiceGame/* /var/www/html/
+systemctl start httpd
+systemctl enable httpd
