@@ -1,0 +1,24 @@
+---
+  - hosts: dev
+    become: yes
+    remote_user: ec2-user
+    tasks:
+      - name: Install Apache and git.
+        yum: name={{ item }} state=present
+        with_items:
+          - httpd
+          - git
+      - name: Git clone github repo
+        command: "git clone https://github.com/LiangChen0323/DiceGame_Project.git"
+      - name: Move to Apache
+        command: "cp DiceGame_Project/DiceGame/* /var/www/html/"
+      - name: Make my directory tree readable
+        file:
+          path: /var/www/html/
+          mode: u=rwX,g=rX,o=rX
+          recurse: yes
+          owner: apache
+          group: apache
+      - name: Make sure Apache is started now and at boot.
+        service: name=httpd state=started enabled=yes
+  

@@ -17,6 +17,14 @@ variable "elb_unhealthy_threshold" {}
 variable "elb_timeout" {}
 variable "elb_interval" {}
 
+#AMI
+variable "dev_ami" {}
+variable "dev_instance_type" {}
+
+#keys
+variable "public_key_path" {}
+variable "key_name" {}
+
 #ASG
 variable "lc_instance_type" {}
 variable "asg_max" {}
@@ -24,10 +32,3 @@ variable "asg_min" {}
 variable "asg_grace" {}
 variable "asg_hct" {}
 variable "asg_cap" {}
-
-#AMI
-variable "ami_id" {}
-
-#keys
-variable "public_key_path" {}
-variable "key_name" {}

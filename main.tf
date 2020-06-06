@@ -142,6 +142,37 @@ resource "aws_security_group" "DiceGame_private_sg" {
   }
 }
 
+
+# Public Security groups for dev instance
+
+resource "aws_security_group" "DiceGame_dev_sg" {
+  name        = "DiceGame_dev_sg"
+  description = "Used for access to the dev instance"
+  vpc_id      = aws_vpc.DiceGame_vpc.id
+  # SSH
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # HTTP 
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 # Load balancer 
 resource "aws_elb" "DiceGame_elb" {
   name = "${var.domain_name}-elb"
@@ -174,20 +205,54 @@ resource "aws_elb" "DiceGame_elb" {
     Name = "DiceGame_${var.domain_name}-elb"
   }
 }
-
+# Key pair
 resource "aws_key_pair" "DiceGame_auth" {
   key_name   = var.key_name
   public_key = file(var.public_key_path)
 }
 
+# Public instance for gloden image
+resource "aws_instance" "DiceGame_dev" {
+  instance_type = var.dev_instance_type
+  ami           = var.dev_ami
+  tags = {
+    Name = "DiceGame_dev"
+  }
+  key_name               = aws_key_pair.DiceGame_auth.id
+  vpc_security_group_ids = [aws_security_group.DiceGame_dev_sg.id]
+  subnet_id              = aws_subnet.DiceGame_public1_subnet.id
+
+  provisioner "local-exec" {
+    command = <<EOD
+cat <<EOF > aws_hosts 
+[dev] 
+${aws_instance.DiceGame_dev.public_ip} 
+EOF
+EOD
+  }
+  provisioner "local-exec" {
+    command = "aws ec2 wait instance-status-ok --instance-ids ${aws_instance.DiceGame_dev.id} --profile liangchen && ansible-playbook -i aws_hosts EC2.yml"
+  }
+}
+
+# Golden AMI
+# random ami id
+resource "random_id" "golden_ami" {
+  byte_length = 8
+}
+
+resource "aws_ami_from_instance" "DiceGame_golden" {
+  name               = "DiceGame_ami-${random_id.golden_ami.b64}"
+  source_instance_id = aws_instance.DiceGame_dev.id
+}
+
 # Launch configuration 
 resource "aws_launch_configuration" "DiceGame_lc" {
   name_prefix          = "DiceGame_lc-"
-  image_id             = var.ami_id
+  image_id             = aws_ami_from_instance.DiceGame_golden.id
   instance_type        = var.lc_instance_type
   security_groups      = [aws_security_group.DiceGame_private_sg.id]
   key_name             = aws_key_pair.DiceGame_auth.id
-  user_data            = file("userdata")
   lifecycle {
     create_before_destroy = true
   }

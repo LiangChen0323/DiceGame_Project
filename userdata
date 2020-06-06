@@ -1,5 +1,6 @@
 #!/bin/bash
 sudo yum install httpd -y
+sudo yum install git -y
 sudo git clone https://github.com/LiangChen0323/DiceGame_Project.git
 sudo cp DiceGame_Project/DiceGame/* /var/www/html/
 sudo systemctl start httpd
