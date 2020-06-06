@@ -224,7 +224,7 @@ resource "aws_instance" "DiceGame_dev" {
 
   provisioner "local-exec" {
     command = <<EOD
-echo <<EOF > aws_hosts 
+cat <<EOF > aws_hosts 
 [dev] 
 ${aws_instance.DiceGame_dev.public_ip} 
 EOF
