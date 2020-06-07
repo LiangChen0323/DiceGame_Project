@@ -224,15 +224,15 @@ resource "aws_instance" "DiceGame_dev" {
 
   provisioner "local-exec" {
     command = <<EOD
-cat <<EOF > aws_hosts 
-[dev] 
-${aws_instance.DiceGame_dev.public_ip} 
+cat <<EOF > aws_hosts
+[dev]
+${aws_instance.wp_dev.public_ip}
 EOF
 EOD
   }
 
   provisioner "local-exec" {
-    command = "aws ec2 wait instance-status-ok --instance-ids ${aws_instance.DiceGame_dev.id} --profile liangchen && ansible-playbook -i aws_hosts  EC2.yaml"
+    command = "aws ec2 wait instance-status-ok --instance-ids ${aws_instance.DiceGame_dev.id} --profile liangchen && ansible-playbook -i aws_hosts EC2.yaml"
   }
 }
 

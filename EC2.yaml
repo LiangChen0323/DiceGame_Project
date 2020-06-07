@@ -8,10 +8,15 @@
         with_items:
           - httpd
           - git
+      - name: Clean dir
+        command: "rm -rf DiceGame_Project"
       - name: Git clone github repo
         command: "git clone https://github.com/LiangChen0323/DiceGame_Project.git"
       - name: Move to Apache
-        command: "cp DiceGame_Project/DiceGame/* /var/www/html/"
+        copy:
+          src: /home/ec2-user/DiceGame_Project/DiceGame/
+          dest: /var/www/html
+          remote_src: yes
       - name: Make my directory tree readable
         file:
           path: /var/www/html/
@@ -21,4 +26,3 @@
           group: apache
       - name: Make sure Apache is started now and at boot.
         service: name=httpd state=started enabled=yes
-  
