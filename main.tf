@@ -177,7 +177,7 @@ resource "aws_security_group" "DiceGame_dev_sg" {
 resource "aws_elb" "DiceGame_elb" {
   name = "${var.domain_name}-elb"
 
-  subnets = [aws_subnet.DiceGame_public1_subnet.id]
+  subnets = [aws_subnet.DiceGame_public1_subnet.id, aws_subnet.DiceGame_private2_subnet.id]
 
   security_groups = [aws_security_group.DiceGame_public_sg.id]
 
@@ -223,12 +223,7 @@ resource "aws_instance" "DiceGame_dev" {
   subnet_id              = aws_subnet.DiceGame_public1_subnet.id
 
   provisioner "local-exec" {
-    command = <<EOD
-cat <<EOF > aws_hosts
-[dev]
-${aws_instance.DiceGame_dev.public_ip}
-EOF
-EOD
+    command = "echo ${aws_instance.DiceGame_dev.public_ip} >> aws_hosts"
   }
 
   provisioner "local-exec" {
