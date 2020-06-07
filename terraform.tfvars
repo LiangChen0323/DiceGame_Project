@@ -33,4 +33,4 @@ asg_hct          = "EC2"
 asg_cap          = "2"
 
 #Route53
-zone_is = "Z0016315HM5HFEENTSBN"
+zone_id = "Z0016315HM5HFEENTSBN"

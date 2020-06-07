@@ -281,7 +281,7 @@ resource "aws_route53_record" "www" {
   type    = "A"
 
   alias {
-    name    = aws_elb.DiceGame_elb.domain_name
+    name    = aws_elb.DiceGame_elb.dns_name
     zone_id = aws_elb.DiceGame_elb.zone_id
     evaluate_target_health = false
   }
