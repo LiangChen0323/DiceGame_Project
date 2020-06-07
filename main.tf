@@ -226,7 +226,7 @@ resource "aws_instance" "DiceGame_dev" {
     command = <<EOD
 cat <<EOF > aws_hosts
 [dev]
-${aws_instance.wp_dev.public_ip}
+${aws_instance.DiceGame_dev.public_ip}
 EOF
 EOD
   }
