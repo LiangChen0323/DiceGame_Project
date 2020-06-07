@@ -273,3 +273,16 @@ resource "aws_autoscaling_group" "DiceGame_asg" {
     create_before_destroy = true
   }
 }
+
+# Route 53
+resource "aws_route53_record" "www" {
+  zone_id = var.zone_id
+  name    = "www."
+  type    = "A"
+
+  alias {
+    name    = aws_elb.DiceGame_elb.domain_name
+    zone_id = aws_elb.DiceGame_elb.zone_id
+    evaluate_target_health = false
+  }
+}

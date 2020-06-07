@@ -31,3 +31,6 @@ asg_min          = "1"
 asg_grace        = "300"
 asg_hct          = "EC2"
 asg_cap          = "2"
+
+#Route53
+zone_is = "Z0016315HM5HFEENTSBN"
